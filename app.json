@@ -2,6 +2,8 @@
   "expo": {
     "name": "live-covid19",
     "slug": "live-covid19",
+    "privacy": "public",
+    "sdkVersion": "34.0.0",
     "platforms": [
       "ios",
       "android",
@@ -23,6 +25,9 @@
     ],
     "ios": {
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.expo.covid19"
     }
   }
 }

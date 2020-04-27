@@ -17,10 +17,6 @@ export default class dashboard extends React.Component {
     headerStyle:{elevation:0, shadowOpacity:0},
     headerTitleStyle: { flex: 1, textAlign: 'center'},
     headerTitleContainerStyle: {left: 0 },
-    // headerRight: 
-    //   (<TouchableOpacity onPress={navigation.getParam('gotoBooked')} style={{paddingHorizontal:15}}>
-    //     <MaterialCommunityIcons name="book-open-page-variant" size={20} />
-    //   </TouchableOpacity>),
   });
 
   render() {
