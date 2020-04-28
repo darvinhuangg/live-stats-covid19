@@ -25,15 +25,6 @@ export default class dashboard extends React.Component {
     console.log('Spread Pressed');
   }
 
-  onPressSettings = () => {
-    console.log('Settings Pressed');
-  }
-
-  static navigationOptions=({navigation}) => ({
-    headerStyle:{elevation:0, shadowOpacity:0},
-    header:null,
-  });
-
   render() {
 
     return (
@@ -41,10 +32,6 @@ export default class dashboard extends React.Component {
         <ScrollView contentContainerStyle={{flex:1, backgroundColor:R.colors.white}}>
         	<Block flex={false} spacing={false} style={{height:280}}>
         		<ImageBackground source={R.images.dashboard} style={styles.imageBackground} />
-            <TouchableOpacity style={styles.headerRightButton} onPress={this.onPressSettings}>
-              <Text title white style={{marginRight:5}}>Settings</Text>
-              <MaterialCommunityIcons name="settings" size={20} color={R.colors.white} />
-            </TouchableOpacity>
             <Block marginTop={20} style={{marginLeft:width/2.3, position:'absolute', marginTop:70}}>
               <Text h2 white semibold>All you need</Text>
               <Text h2 white semibold style={{marginTop:10}}>is stay at home</Text>
