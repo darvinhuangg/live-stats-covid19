@@ -31,6 +31,7 @@ export default class Block extends React.Component {
 			black,
 			greenGrass,
 			lightBlue,
+			marginTop,
 			... props
 		} = this.props;
 		
@@ -43,6 +44,7 @@ export default class Block extends React.Component {
 			paddingHorizontal && { paddingHorizontal },
 			marginVertical && { marginVertical },
 			marginHorizontal && { marginHorizontal },
+			marginTop && { marginTop },
 			row && styles.row,
 			left && styles.left,
 			right && styles.right,
@@ -74,7 +76,7 @@ export default class Block extends React.Component {
 }
 
 const styles = StyleSheet.create({
-	block: { flex: 1, padding: 10 },
+	block: { flex: 1, padding: 20 },
 	row: { flexDirection: 'row' },
 	column: { flexDirection: 'column' },
 	card: {borderRadius: R.sizes.border},

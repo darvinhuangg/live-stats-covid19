@@ -34,6 +34,7 @@ export default class Typography extends React.Component {
 			firebrick,
 			lightBlue,
 			gray,
+			marginTop,
 			...props 
 		} = this.props
 
@@ -48,6 +49,7 @@ export default class Typography extends React.Component {
 			caption && styles.caption,
 			small && styles.small,
 			size &&  { fontSize: size },
+			marginTop && { marginTop },
 			bold && styles.bold,
 			semibold && styles.semibold,
 			light && styles.light,
