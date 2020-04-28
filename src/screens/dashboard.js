@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, ScrollView, FlatList, TouchableOpacity, ToastAndroid, ImageBackground, Dimensions } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { get } from '@network/API';
 import R from '@res/R';
 import Block from '@components/Block';
 import Text from '@components/Text';
@@ -10,7 +11,19 @@ const { height, width } = Dimensions.get("screen");
 export default class dashboard extends React.Component {
 
   constructor(props){
-    super(props); 
+    super(props);
+    this.state = {}
+  }
+
+  componentDidMount(){
+    get('https://covid19.mathdro.id/api/countries/id')
+    .then(response => {
+      const { data } = response      
+      this.setState({ confirmed: data.confirmed, recovered: data.recovered, deaths: data.deaths })
+    })
+    .catch(errorMessage => {
+      return Alert.alert('Error', errorMessage);
+    })
   }
 
   changeLocation = () => {
@@ -26,6 +39,8 @@ export default class dashboard extends React.Component {
   }
 
   render() {
+
+    let { recovered, confirmed, deaths } = this.state;
 
     return (
       
@@ -56,18 +71,18 @@ export default class dashboard extends React.Component {
           <Block flex={false} style={R.palette.card} row>
             <Block middle center spacing={false}>
               <MaterialCommunityIcons name="octagram" size={24} color={R.colors.orange} />
-              <Text h1 color={R.colors.orange} marginTop={20}>1046</Text>
+              <Text h1 color={R.colors.orange} marginTop={20}>{confirmed && confirmed.value}</Text>
               <Text gray title>Infected</Text>
             </Block>
             <Block middle center spacing={false}>
-              <MaterialCommunityIcons name="octagram" size={24} color={R.colors.red} />
-              <Text h1 color={R.colors.red} marginTop={20}>746</Text>
-              <Text gray title>Deaths</Text>
+              <MaterialCommunityIcons name="octagram" size={24} color={R.colors.greenGrass} />
+              <Text h1 color={R.colors.greenGrass} marginTop={20}>{recovered && recovered.value}</Text>
+              <Text gray title>Recovered</Text>
             </Block>
             <Block middle center spacing={false}>
-              <MaterialCommunityIcons name="octagram" size={24} color={R.colors.greenGrass} />
-              <Text h1 color={R.colors.greenGrass} marginTop={20}>46</Text>
-              <Text gray title>Recovered</Text>
+              <MaterialCommunityIcons name="octagram" size={24} color={R.colors.red} />
+              <Text h1 color={R.colors.red} marginTop={20}>{deaths && deaths.value}</Text>
+              <Text gray title>Deaths</Text>
             </Block>
           </Block>
           <Block flex={false}>
