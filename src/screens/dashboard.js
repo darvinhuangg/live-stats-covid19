@@ -1,24 +1,38 @@
 import React from 'react';
-import { StyleSheet, View, ScrollView, FlatList, TouchableOpacity, ToastAndroid, ImageBackground, Dimensions } from 'react-native';
+import { StyleSheet, View, ScrollView, FlatList, TouchableOpacity, ToastAndroid, Image, ImageBackground, Dimensions } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { get } from '@network/API';
 import R from '@res/R';
 import Block from '@components/Block';
 import Text from '@components/Text';
+import { connect } from 'react-redux';
+import { Flag } from 'react-native-svg-flagkit';
+import moment from 'moment';
 
 const { height, width } = Dimensions.get("screen");
 
-export default class dashboard extends React.Component {
+export default class Dashboard extends React.Component {
 
   constructor(props){
     super(props);
-    this.state = {}
+    this.state = {
+      region: {
+        "iso": "IDN",
+        "name": "Indonesia"
+      },
+      image:null,
+    }
   }
 
   componentDidMount(){
-    get('https://covid19.mathdro.id/api/countries/id')
+    this.getResponse()
+    this.getSummaryResponse()
+  }
+
+  getResponse(){
+    get('https://covid19.mathdro.id/api/countries/' + this.state.region.iso)
     .then(response => {
-      const { data } = response      
+      const { data } = response
       this.setState({ confirmed: data.confirmed, recovered: data.recovered, deaths: data.deaths })
     })
     .catch(errorMessage => {
@@ -26,25 +40,44 @@ export default class dashboard extends React.Component {
     })
   }
 
+  getSummaryResponse(){
+    get('https://covid19.mathdro.id/api')
+    .then(response => {
+      const { data } = response
+      this.setState({ image:data.image })
+    })
+    .catch(errorMessage => {
+      return Alert.alert('Error', errorMessage);
+    })
+  }
+
   changeLocation = () => {
-    console.log('Change Location Pressed');
+    this.props.navigation.navigate('Region', {
+      onNavigateBack:this.setRegion.bind(this)
+    });
+  }
+
+  setRegion = (selected_region) => {
+    this.setState({region:selected_region}, () => {
+      this.getResponse();
+    })
   }
 
   onPressDetailsCase = () => {
-    console.log("Case Pressed");
+    this.props.navigation.navigate("CaseUpdate", { region: this.state.region})
   }
 
-  onPressDetailsSpread = () => {
+  onPressDetailGlobalDaily = () => {
     console.log('Spread Pressed');
   }
 
   render() {
 
-    let { recovered, confirmed, deaths } = this.state;
+    let { recovered, confirmed, deaths, region, image } = this.state;
 
     return (
       
-        <ScrollView contentContainerStyle={{flex:1, backgroundColor:R.colors.white}}>
+        <ScrollView contentContainerStyle={{backgroundColor:R.colors.white, marginBottom:50}}>
         	<Block flex={false} spacing={false} style={{height:280}}>
         		<ImageBackground source={R.images.dashboard} style={styles.imageBackground} />
             <Block marginTop={20} style={{marginLeft:width/2.3, position:'absolute', marginTop:70}}>
@@ -55,14 +88,14 @@ export default class dashboard extends React.Component {
           <Block flex={false}>
             <TouchableOpacity onPress={this.changeLocation} style={styles.changeLocationButton}>
               <MaterialCommunityIcons name="map-marker" size={24} color={R.colors.primary} />
-              <Text semibold title style={{marginLeft:30, flex:1}}>Indonesia</Text>
+              <Text semibold title style={{marginLeft:30, flex:1}}>{region.name}</Text>
               <MaterialCommunityIcons name="chevron-down" size={24} color={R.colors.darkgray} />
             </TouchableOpacity>
           </Block>
           <Block flex={false}>
             <Text h3 semibold>Case Update</Text>
             <Block spacing={false} flex={false} row marginTop={10}>
-              <Text style={{flex:1}}>Neweset update March 28</Text>
+              <Text style={{flex:1}}>Newest update {moment().format("MMM Do YYYY")}</Text>
               <TouchableOpacity onPress={this.onPressDetailsCase}>
                 <Text primary semibold>See details</Text>
               </TouchableOpacity>
@@ -71,26 +104,30 @@ export default class dashboard extends React.Component {
           <Block flex={false} style={R.palette.card} row>
             <Block middle center spacing={false}>
               <MaterialCommunityIcons name="octagram" size={24} color={R.colors.orange} />
-              <Text h1 color={R.colors.orange} marginTop={20}>{confirmed && confirmed.value}</Text>
+              <Text h2 semibold color={R.colors.orange} marginTop={20}>{confirmed && confirmed.value}</Text>
               <Text gray title>Infected</Text>
             </Block>
             <Block middle center spacing={false}>
               <MaterialCommunityIcons name="octagram" size={24} color={R.colors.greenGrass} />
-              <Text h1 color={R.colors.greenGrass} marginTop={20}>{recovered && recovered.value}</Text>
+              <Text h2 semibold color={R.colors.greenGrass} marginTop={20}>{recovered && recovered.value}</Text>
               <Text gray title>Recovered</Text>
             </Block>
             <Block middle center spacing={false}>
               <MaterialCommunityIcons name="octagram" size={24} color={R.colors.red} />
-              <Text h1 color={R.colors.red} marginTop={20}>{deaths && deaths.value}</Text>
+              <Text h2 semibold color={R.colors.red} marginTop={20}>{deaths && deaths.value}</Text>
               <Text gray title>Deaths</Text>
             </Block>
           </Block>
           <Block flex={false}>
+            <Text h3 semibold>Global Case</Text>
             <Block spacing={false} flex={false} row marginTop={10}>
-              <Text style={{flex:1}} h3 semibold>Spread of Virus</Text>
-              <TouchableOpacity onPress={this.onPressDetailsSpread}>
+              <Text style={{flex:1}}>Newest update {moment().format("MMM Do YYYY")}</Text>
+              <TouchableOpacity onPress={this.onPressDetailGlobalDaily}>
                 <Text primary semibold>See details</Text>
               </TouchableOpacity>
+            </Block>
+            <Block spacing={false} flex={false} marginTop={10}>
+              <Image source={R.images.global_case} style={{width:width - 40, height: (width - 40) / 2, borderRadius:20 }} />
             </Block>
           </Block>
         </ScrollView>
@@ -107,7 +144,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: R.colors.secondary,
     borderRadius:30,
-    padding:30,
+    padding:15,
   },
   imageBackground:{
     flex:1,
@@ -122,3 +159,19 @@ const styles = StyleSheet.create({
     alignItems:'center'
   }
 });
+
+// const mapStateToProps = (state) => {
+//   console.log(state);
+//   return {
+//     region: state.dataReducer.selectedRegion
+//   }
+// }
+
+// //Add in Select Region
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     selectRegion: (data) => dispatch(selectedRegion(data))
+//   }
+// }
+
+// export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

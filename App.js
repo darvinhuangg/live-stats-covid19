@@ -3,6 +3,13 @@ import { View, AppRegistry, Text, SafeAreaView, StatusBar, StyleSheet, Platform 
 import AppNavigator from '@root/route';
 import R from '@res/R';
 import * as Font from 'expo-font';
+import { Provider } from 'react-redux';
+
+import configureStore from '@root/store';
+
+// const store = configureStore;
+// 
+// const Redux = () => <Provider store={store}><AppNavigator /></Provider>
 
 const MyStatusBar = ({backgroundColor, ...props}) => (
   <View style={[styles.statusBar, { backgroundColor }]}>

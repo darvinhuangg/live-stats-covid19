@@ -1,15 +1,19 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import {createStackNavigator, createDrawerNavigator} from 'react-navigation';
-import dashboard from '@screens/dashboard';
+import Dashboard from '@screens/dashboard';
+import Region from '@screens/Region';
+import CaseUpdate from '@screens/CaseUpdate';
 import DrawerButton from '@screens/DrawerButton';
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 
 import { ActionSheetProvider, connectActionSheet } from '@expo/react-native-action-sheet'
 
-const Dashboard = createStackNavigator(
+const Home = createStackNavigator(
 	{
-		dashboard: { screen: dashboard },
+		Dashboard: { screen: Dashboard },
+		Region: { screen: Region},
+		CaseUpdate: { screen: CaseUpdate }
 	},
 	{
 		navigationOptions: ({navigation}) => ({
@@ -23,7 +27,7 @@ const Dashboard = createStackNavigator(
 
 const Language = createStackNavigator(
 	{
-		dashboard: { screen: dashboard },
+		dashboard: { screen: Dashboard },
 	},
 	{
 		navigationOptions: ({navigation}) => ({
@@ -38,7 +42,7 @@ const Language = createStackNavigator(
 
 const DrawerNavigator = createDrawerNavigator({
 	Menu: {  
-			screen: Dashboard, 			
+			screen: Home, 			
 			navigationOptions: {
 				drawerLabel: 'Menu',
 				drawerIcon: ({tintColor}) => (
