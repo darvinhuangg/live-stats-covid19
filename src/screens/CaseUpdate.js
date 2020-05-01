@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { Flag } from 'react-native-svg-flagkit';
 import axios from 'axios';
 import moment from 'moment';
+import i18n from "@res/lang/i18n";
 
 const { height, width } = Dimensions.get("screen");
 
@@ -82,7 +83,7 @@ export default class CaseUpdate extends React.Component {
                 </Block>
               ) : (null)}
             </Block>
-            <Text title center color={R.colors.gray}>Infected</Text>
+            <Text title center color={R.colors.gray}>{i18n.t("dashboard.infected")}</Text>
           </Block>
           <Block spacing={false}>
             <Block row middle center spacing={false}>
@@ -94,7 +95,7 @@ export default class CaseUpdate extends React.Component {
                 </Block>
               ) : (null)}
             </Block>
-            <Text title center color={R.colors.gray}>Recovered</Text>
+            <Text title center color={R.colors.gray}>{i18n.t("dashboard.recovered")}</Text>
           </Block>
           <Block spacing={false}>
             <Block row middle center spacing={false}>
@@ -106,7 +107,7 @@ export default class CaseUpdate extends React.Component {
                 </Block>
               ) : (null)}
             </Block>
-            <Text title center color={R.colors.gray}>Deaths</Text>
+            <Text title center color={R.colors.gray}>{i18n.t("dashboard.deaths")}</Text>
           </Block>
         </Block>
       </Block>
@@ -125,8 +126,8 @@ export default class CaseUpdate extends React.Component {
         </Block>
         <Block spacing={false} flex={3}>
             <Text h2 semibold>{region.name.toUpperCase()}</Text>
-            <Text semibold title>Total population: {confirmed ? confirmed.population : '-'}</Text>
-            <Text title>Location: {confirmed ? confirmed.continent + " - " + confirmed.location : '-' }</Text>
+            <Text semibold title>{i18n.t("dashboard.total_population")}: {confirmed ? confirmed.population : '-'}</Text>
+            <Text title>{i18n.t("dashboard.location")}: {confirmed ? confirmed.continent + " - " + confirmed.location : '-' }</Text>
         </Block>
       </Block>
     )
@@ -134,12 +135,12 @@ export default class CaseUpdate extends React.Component {
 
   renderListEmptyComponent = () => {
     return (
-      <Block center middle white style={{borderWidth:1, borderRadius:10, borderColor:R.colors.lightGray}} paddingVertical={20}><Text title semibold>No Data Available</Text></Block>      
+      <Block center middle white style={{borderWidth:1, borderRadius:10, borderColor:R.colors.lightGray}} paddingVertical={20}><Text title semibold>{i18n.t("dashboard.no_record")}</Text></Block>      
     )
   }
 
   static navigationOptions=({navigation}) => ({
-    title:"Case Update",
+    title:`${i18n.t("dashboard.case_update")}`,
     headerStyle:{elevation:0, shadowOpacity:0},
     headerTitleStyle: { flex: 1, textAlign: 'center'},
     headerTitleContainerStyle: {left: 0 },

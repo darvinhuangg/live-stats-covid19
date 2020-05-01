@@ -1,6 +1,6 @@
 const images = {
   dashboard: require('./images/dashboard.png'),
-  global_case: {uri : 'https://covid19.mathdro.id/api/og'},
+  global_case: {uri : 'https://covid19.mathdro.id/api/og', cache:'reload'},
   about: require('./images/dashboard_2.png'),
   fever: require('./images/symptomps/fever.png'),
   cough: require('./images/symptomps/cough.png'),

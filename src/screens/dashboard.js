@@ -1,10 +1,12 @@
 import React from 'react';
-import { StyleSheet, View, ScrollView, FlatList, TouchableOpacity, ToastAndroid, Image, ImageBackground, Dimensions } from 'react-native';
+import { StyleSheet, View, ScrollView, FlatList, TouchableOpacity, ToastAndroid, Image, ImageBackground, Dimensions, RefreshControl } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { get } from '@network/API';
+import axios from 'axios';
 import R from '@res/R';
 import Block from '@components/Block';
 import Text from '@components/Text';
+import i18n from "@res/lang/i18n";
 import { connect } from 'react-redux';
 import { Flag } from 'react-native-svg-flagkit';
 import moment from 'moment';
@@ -21,34 +23,31 @@ export default class Dashboard extends React.Component {
         "name": "Indonesia"
       },
       image:null,
+      refreshing:false,
     }
   }
 
   componentDidMount(){
     this.getResponse()
-    this.getSummaryResponse()
   }
 
-  getResponse(){
-    get('https://covid19.mathdro.id/api/countries/' + this.state.region.iso)
-    .then(response => {
-      const { data } = response
-      this.setState({ confirmed: data.confirmed, recovered: data.recovered, deaths: data.deaths })
-    })
-    .catch(errorMessage => {
-      return Alert.alert('Error', errorMessage);
-    })
-  }
+  async getResponse(){
 
-  getSummaryResponse(){
-    get('https://covid19.mathdro.id/api')
-    .then(response => {
-      const { data } = response
-      this.setState({ image:data.image })
-    })
-    .catch(errorMessage => {
-      return Alert.alert('Error', errorMessage);
-    })
+    const [regionResp, globalResp] = await Promise.all([
+     axios.get('https://covid19.mathdro.id/api/countries/' + this.state.region.iso),
+     axios.get('https://covid19.mathdro.id/api')
+    ])
+
+    let regionResponse = regionResp.data;
+    let globalResponse = globalResp.data;
+
+    this.setState({ 
+      confirmed: regionResponse.confirmed, 
+      recovered: regionResponse.recovered, 
+      deaths: regionResponse.deaths, 
+      g_confirmed: globalResponse.confirmed, 
+      g_recovered: globalResponse.recovered, 
+      g_deaths: globalResponse.deaths })
   }
 
   changeLocation = () => {
@@ -67,18 +66,32 @@ export default class Dashboard extends React.Component {
     this.props.navigation.navigate("CaseUpdate", { region: this.state.region})
   }
 
+  _onRefresh = () => {
+    this.setState({refreshing: true});
+    this.getResponse();
+    this.setState({refreshing:false});
+  }
+
   render() {
 
-    let { recovered, confirmed, deaths, region, image } = this.state;
+    let { recovered, confirmed, deaths, region, image, g_recovered, g_confirmed, g_deaths } = this.state;
 
     return (
       
-        <ScrollView contentContainerStyle={{backgroundColor:R.colors.white, marginBottom:50}}>
+        <ScrollView 
+          contentContainerStyle={{backgroundColor:R.colors.white, marginBottom:50}}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this._onRefresh}
+            />
+          }
+        >
         	<Block flex={false} spacing={false} style={{height:280}}>
         		<ImageBackground source={R.images.dashboard} style={styles.imageBackground} />
-            <Block marginTop={20} style={{marginLeft:width/2.3, position:'absolute', marginTop:70}}>
-              <Text h2 white semibold>All you need</Text>
-              <Text h2 white semibold style={{marginTop:10}}>is stay at home</Text>
+            <Block style={{marginLeft:width/2.3, position:'absolute', marginTop:50}}>
+              <Text h2 white semibold>{i18n.t("dashboard.title")}</Text>
+              <Text h2 white semibold style={{marginTop:10}}>{i18n.t("dashboard.title_2")}</Text>
             </Block>
         	</Block>
           <Block flex={false}>
@@ -91,9 +104,9 @@ export default class Dashboard extends React.Component {
           <Block flex={false}>
             <Text h3 semibold>Case Update</Text>
             <Block spacing={false} flex={false} row marginTop={10}>
-              <Text style={{flex:1}}>Newest update {moment().format("MMM Do YYYY")}</Text>
+              <Text style={{flex:1}}>{i18n.t("dashboard.newest_update")} {moment().format("MMM Do YYYY")}</Text>
               <TouchableOpacity onPress={this.onPressDetailsCase}>
-                <Text primary semibold>See details</Text>
+                <Text primary semibold>{i18n.t("dashboard.see_details")}</Text>
               </TouchableOpacity>
             </Block>
           </Block>
@@ -101,28 +114,43 @@ export default class Dashboard extends React.Component {
             <Block middle center spacing={false}>
               <MaterialCommunityIcons name="octagram" size={24} color={R.colors.orange} />
               <Text h2 semibold color={R.colors.orange} marginTop={20}>{confirmed && confirmed.value}</Text>
-              <Text gray title>Infected</Text>
+              <Text gray title>{i18n.t("dashboard.infected")}</Text>
             </Block>
             <Block middle center spacing={false}>
               <MaterialCommunityIcons name="octagram" size={24} color={R.colors.greenGrass} />
               <Text h2 semibold color={R.colors.greenGrass} marginTop={20}>{recovered && recovered.value}</Text>
-              <Text gray title>Recovered</Text>
+              <Text gray title>{i18n.t("dashboard.recovered")}</Text>
             </Block>
             <Block middle center spacing={false}>
               <MaterialCommunityIcons name="octagram" size={24} color={R.colors.red} />
               <Text h2 semibold color={R.colors.red} marginTop={20}>{deaths && deaths.value}</Text>
-              <Text gray title>Deaths</Text>
+              <Text gray title>{i18n.t("dashboard.deaths")}</Text>
             </Block>
           </Block>
           <Block flex={false}>
-            <Text h3 semibold>Global Case</Text>
-            <Block spacing={false} flex={false} row marginTop={10}>
-              <Text style={{flex:1}}>Newest update {moment().format("MMM Do YYYY")}</Text>
-            </Block>
-            <Block spacing={false} flex={false} marginTop={10}>
-              <Image source={R.images.global_case} style={{width:width - 40, height: (width - 40) / 2, borderRadius:20 }} />
+            <Text h3 semibold>{i18n.t("dashboard.global_case")}</Text>
+            <Block flex={false} row marginTop={10} spacing={false}> 
+              <Text style={{flex:1}}>{i18n.t("dashboard.newest_update")} {moment().format("MMM Do YYYY")}</Text>
             </Block>
           </Block>
+          <Block flex={false}row style={R.palette.card}>
+            <Block middle center spacing={false}>
+              <MaterialCommunityIcons name="octagram" size={24} color={R.colors.orange} />
+              <Text h3 semibold color={R.colors.orange} marginTop={20}>{g_confirmed && g_confirmed.value}</Text>
+              <Text gray title>{i18n.t("dashboard.infected")}</Text>
+            </Block>
+            <Block middle center spacing={false}>
+              <MaterialCommunityIcons name="octagram" size={24} color={R.colors.greenGrass} />
+              <Text h3 semibold color={R.colors.greenGrass} marginTop={20}>{g_recovered && g_recovered.value}</Text>
+              <Text gray title>{i18n.t("dashboard.recovered")}</Text>
+            </Block>
+            <Block middle center spacing={false}>
+              <MaterialCommunityIcons name="octagram" size={24} color={R.colors.red} />
+              <Text h3 semibold color={R.colors.red} marginTop={20}>{g_deaths && g_deaths.value}</Text>
+              <Text gray title>{i18n.t("dashboard.deaths")}</Text>
+            </Block>
+          </Block>
+          <Block>{/*Empty Block*/}</Block>
         </ScrollView>
     );
   }

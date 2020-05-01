@@ -1,0 +1,46 @@
+{
+	"dashboard": {
+		"title": "#WorkAtHome",
+		"title_2": "#StayAtHome",
+		"newest_update": "Update terbaru",
+		"see_details": "Lihat detil",
+		"infected": "Terinfeksi",
+		"recovered": "Sembuh",
+		"deaths": "Meninggal",
+		"global_case": "Kasus Global",
+		"total_population": "Total Populasi",
+		"location": "Lokasi",
+		"case_update": "Update Kasus",
+		"no_record": "Record tidak ditemukan",
+		"ex_search_placeholder": "Contohnya, Indonesia",
+		"select_country": "Pilih Negara",
+	},
+	"about": {
+		"title": "Mengenal",
+		"title_2": "Tentang Covid-19",
+		"symptomps": "Gejala",
+		"fever": "Demam",
+		"cough": "Batuk",
+		"breathless": "Sesak Nafas",
+		"headache": "Sakit Kepala",
+		"sore_throat": "Sakit Tenggorokan",
+		"prevention": "Pencegahan",
+		"prevent_1": "Jangan bersin di telapak tangan Anda",
+		"prevent_1_desc": "Virus biasanya menyebar melalui tetesan ludah yang saat bersin dan batuk. Ketika virus berada di tangan Anda, mereka ditransmisikan ke benda-benda dan permukaan lainnya",
+		"prevent_2": "Bersin di siku atau syal Anda",
+		"prevent_2_desc": "Agar lebih jelas, cara ini tidak menghilangkan semua risiko, tetapi itulah cara terbaik yang tersedia. Akan tetapi, apapun yang bersifat memberhentikan penyebaran virus itu membantu",
+		"prevent_3": "Menggunakan masker jika berada di luar",
+		"prevent_3_desc": "Masker biasa terbukti sangat membantu jika dipakai dan digunakan dengan benar. Mereka mencegah batuk dan bersin yang Anda alami dan mencegah penularan terhadap orang lain dan sebaliknya",
+		"prevent_4": "Jangan menyentuh wajah Anda dengan tangan Anda",
+		"prevent_4_desc": "Virus ini dapat hidup pada permukaan logam dan plastik selama berhari-hari, jadi menyesuaikan kacamata Anda dengan tangan yang tidak dicuci besar kemungkinan untuk menginfeksi diri Anda sendiri",
+		"prevent_5": "Cuci tangan Anda dengan benar & gosok semua bagian",
+		"prevent_5_desc": "Mencuci tangan dengan benar membutuhkan waktu sekitar 20 detik untuk menghilangkan virus dan bakteri agar tidak menyebar ke orang dan benda lain",
+		"prevent_6": "Hindari orang yang bergejala dan/atau terinfeksi",
+		"prevent_6_desc": "Menjaga jarak 1,5 meter dari orang lain sangat penting. Ingatlah bahwa beberapa orang tanpa gejala mungkin dapat menyebarkan virus"
+	},
+	"language": {
+		"select_language": "Pilih Bahasa",
+		"reopen_app_language": "Buka kembali aplikasi ini agar performa bahasa lebih bagus"
+		
+	}
+}

@@ -1,0 +1,45 @@
+{
+	"dashboard": {
+		"title": "All you need",
+		"title_2": "is stay at home",
+		"newest_update": "Newest update",
+		"see_details": "See details",
+		"infected": "Infected",
+		"recovered": "Recovered",
+		"deaths": "Deaths",
+		"global_case": "Global Case",
+		"total_population": "Total Population",
+		"location": "Location",
+		"case_update": "Case Update",
+		"no_record": "No Record Found",
+		"ex_search_placeholder": "Ex: Indonesia",
+		"select_country": "Select Country",
+	},
+	"about": {
+		"title": "Get to know",
+		"title_2": "About Covid-19",
+		"symptomps": "Symptomps",
+		"fever": "Fever",
+		"cough": "Cough",
+		"breathless": "Breathless",
+		"headache": "Headache",
+		"sore_throat": "Sore Throat",
+		"prevention": "Prevention",
+		"prevent_1": "Do not sneeze in the palm of your hand",
+		"prevent_1_desc": "Germs commonly spread by respiratory droplets emitted from sneezing and coughing. When they land on your hands, they're transmitted to things and other surfaces",
+		"prevent_2": "Sneeze on your elbow or scarf",
+		"prevent_2_desc": "To be clear, the maneuver doesn't eliminate all risk, even if it's then best tactic available. But anything to reduce the amount of flying particles helps",
+		"prevent_3": "Wearing mask if you are in outdoor",
+		"prevent_3_desc": "Basic face masks can prove to be helpful if worn and used properly. They trap coughs and sneezes that you releases and can provide a barrier to exposing other and vice-versa",
+		"prevent_4": "Do not touch your face with your hand",
+		"prevent_4_desc": "This virus can live on metal and plastic for days, so simply adjusting your eyeglasses with unwashed hands may be enough to infect yourself",
+		"prevent_5": "Wash your hands properly & scrub all parts",
+		"prevent_5_desc": "Washing your hands properly which takes about as long as 20 seconds removes viruses and bacteria to stop them spreading to other people and objects",
+		"prevent_6": "Avoid any symptomps and/or infected people",
+		"prevent_6_desc": "Keeping distance 1,5 metre from others is especially important. Remember that some people without symptomps may be able to spread virus"
+	},
+	"language": {
+		"select_language": "Select Language",
+		"reopen_app_language": "Re-open the app for better language performance"
+	}
+}

@@ -7,6 +7,7 @@ import Block from '@components/Block';
 import Text from '@components/Text';
 import { connect } from 'react-redux';
 import { Flag } from 'react-native-svg-flagkit'
+import i18n from "@res/lang/i18n";
 
 export default class Region extends React.Component {
 
@@ -31,7 +32,7 @@ export default class Region extends React.Component {
   }
 
   static navigationOptions=({navigation}) => ({
-    title:"Select Country",
+    title:`${i18n.t("dashboard.select_country")}`,
     headerStyle:{elevation:0, shadowOpacity:0},
     headerTitleStyle: { flex: 1, textAlign: 'center'},
     headerTitleContainerStyle: {left: 0 },
@@ -42,7 +43,7 @@ export default class Region extends React.Component {
 
   renderListEmptyComponent = () => {
     return (
-      <Block center middle white style={{borderWidth:1, borderRadius:10, borderColor:R.colors.lightGray}} paddingVertical={20}><Text title semibold>No Country Available</Text></Block>      
+      <Block center middle white style={{borderWidth:1, borderRadius:10, borderColor:R.colors.lightGray}} paddingVertical={20}><Text title semibold>{i18n.t("dashboard.no_record")}</Text></Block>      
     )
   }
 
@@ -65,7 +66,7 @@ export default class Region extends React.Component {
           value={this.state.search}
           autoFocus={true}
           onChangeText={this.filterRegions}
-          placeholder="Ex: Indonesia"          
+          placeholder={i18n.t("dashboard.ex_search_placeholder")}
         />
       </Block>
     )
