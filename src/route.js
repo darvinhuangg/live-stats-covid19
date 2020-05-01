@@ -5,6 +5,7 @@ import Dashboard from '@screens/dashboard';
 import Region from '@screens/Region';
 import CaseUpdate from '@screens/CaseUpdate';
 import DrawerButton from '@screens/DrawerButton';
+import About from '@screens/About';
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 
 import { ActionSheetProvider, connectActionSheet } from '@expo/react-native-action-sheet'
@@ -39,14 +40,37 @@ const Language = createStackNavigator(
 	}
 );
 
+const Abouts = createStackNavigator(
+	{
+		About: { screen: About },
+	},
+	{
+		navigationOptions: ({navigation}) => ({
+			headerStyle:{elevation:0, shadowOpacity:0, height:70},
+			headerTransparent: true,
+			headerRight: <DrawerButton navigation={navigation} />,
+			headerForceInset: { top: true }
+		})
+	}
+);
+
 
 const DrawerNavigator = createDrawerNavigator({
-	Menu: {  
-			screen: Home, 			
+	// Dashboard: {  
+	// 		screen: Home, 			
+	// 		navigationOptions: {
+	// 			drawerLabel: 'Menu',
+	// 			drawerIcon: ({tintColor}) => (
+	// 				<MaterialCommunityIcons name="menu" size={20} style={{color: tintColor}} />
+	// 			)
+	// 		},
+	// 	},
+	About: {
+			screen: Abouts, 			
 			navigationOptions: {
-				drawerLabel: 'Menu',
+				drawerLabel: 'Get to know',
 				drawerIcon: ({tintColor}) => (
-					<MaterialCommunityIcons name="menu" size={20} style={{color: tintColor}} />
+					<MaterialCommunityIcons name="target" size={20} style={{color: tintColor}} />
 				)
 			},
 		},

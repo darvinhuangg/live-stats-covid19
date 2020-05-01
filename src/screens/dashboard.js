@@ -67,10 +67,6 @@ export default class Dashboard extends React.Component {
     this.props.navigation.navigate("CaseUpdate", { region: this.state.region})
   }
 
-  onPressDetailGlobalDaily = () => {
-    console.log('Spread Pressed');
-  }
-
   render() {
 
     let { recovered, confirmed, deaths, region, image } = this.state;
@@ -122,9 +118,6 @@ export default class Dashboard extends React.Component {
             <Text h3 semibold>Global Case</Text>
             <Block spacing={false} flex={false} row marginTop={10}>
               <Text style={{flex:1}}>Newest update {moment().format("MMM Do YYYY")}</Text>
-              <TouchableOpacity onPress={this.onPressDetailGlobalDaily}>
-                <Text primary semibold>See details</Text>
-              </TouchableOpacity>
             </Block>
             <Block spacing={false} flex={false} marginTop={10}>
               <Image source={R.images.global_case} style={{width:width - 40, height: (width - 40) / 2, borderRadius:20 }} />

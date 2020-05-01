@@ -32,6 +32,7 @@ export default class Block extends React.Component {
 			greenGrass,
 			lightBlue,
 			marginTop,
+			card,
 			... props
 		} = this.props;
 		
@@ -59,6 +60,7 @@ export default class Block extends React.Component {
 			tertiary && styles.tertiary,
 			white && styles.white,
 			black && styles.black,
+			card && styles.card,
 			greenGrass && styles.greenGrass,
 			lightBlue && styles.lightBlue,
 			color && styles[color], //predefined styles colors for background
@@ -79,7 +81,7 @@ const styles = StyleSheet.create({
 	block: { flex: 1, padding: 20 },
 	row: { flexDirection: 'row' },
 	column: { flexDirection: 'column' },
-	card: {borderRadius: R.sizes.border},
+	card: R.palette.card,
 	center: { alignItems: 'center' },
 	left: { justifyContent: 'flex-start' },
 	right: { justifyContent: 'flex-end' },
