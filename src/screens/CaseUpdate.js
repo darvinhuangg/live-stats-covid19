@@ -10,6 +10,7 @@ import { Flag } from 'react-native-svg-flagkit';
 import axios from 'axios';
 import moment from 'moment';
 import i18n from "@res/lang/i18n";
+import Loader from '@components/Loader';
 
 const { height, width } = Dimensions.get("screen");
 
@@ -18,13 +19,15 @@ export default class CaseUpdate extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      region: this.props.navigation.state.params.region
+      region: this.props.navigation.state.params.region,
+      loading:false,
     }
   }
 
   async componentDidMount(){
 
     let { region } = this.state;
+    this.setState({loading:true});
 
     const [recoveredResponse, confirmedResponse, deathsResponse] = await Promise.all([
      axios.get('https://covid-api.mmediagroup.fr/v1/history?country='+region.name+'&status=Recovered'),
@@ -56,6 +59,8 @@ export default class CaseUpdate extends React.Component {
       confirmed: confirmedResp,
       deaths: deathsResp,
       data: combine_data,
+    }, () => {
+      this.setState({loading:false});
     });
 
     
@@ -134,8 +139,9 @@ export default class CaseUpdate extends React.Component {
   }
 
   renderListEmptyComponent = () => {
+    let { loading } = this.state;
     return (
-      <Block center middle white style={{borderWidth:1, borderRadius:10, borderColor:R.colors.lightGray}} paddingVertical={20}><Text title semibold>{i18n.t("dashboard.no_record")}</Text></Block>      
+      <Block center middle white style={{borderWidth:1, borderRadius:10, borderColor:R.colors.lightGray}} paddingVertical={20}><Text title semibold>{loading ? i18n.t("dashboard.loading") : i18n.t("dashboard.no_record")}</Text></Block>
     )
   }
 
@@ -156,6 +162,7 @@ export default class CaseUpdate extends React.Component {
     return (
       
         <ScrollView contentContainerStyle={{flexGrow:1, backgroundColor:R.colors.white, marginBottom:50,}}>
+          <Loader loading={this.state.loading} />
           <FlatList 
             data={this.state.data}
             ListHeaderComponent={this.renderHeader.bind(this)}

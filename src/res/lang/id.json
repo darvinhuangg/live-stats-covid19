@@ -1,4 +1,9 @@
 {
+	"menu":{
+		"dashboard": "Beranda",
+		"get-know": "Tentang Covid19",
+		"language": "Bahasa",
+	},
 	"dashboard": {
 		"title": "#WorkAtHome",
 		"title_2": "#StayAtHome",
@@ -14,6 +19,7 @@
 		"no_record": "Record tidak ditemukan",
 		"ex_search_placeholder": "Contohnya, Indonesia",
 		"select_country": "Pilih Negara",
+		"loading": "Mempersiapkan data ...",
 	},
 	"about": {
 		"title": "Mengenal",

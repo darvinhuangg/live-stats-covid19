@@ -6,6 +6,7 @@ import axios from 'axios';
 import R from '@res/R';
 import Block from '@components/Block';
 import Text from '@components/Text';
+import Loader from '@components/Loader';
 import i18n from "@res/lang/i18n";
 import { connect } from 'react-redux';
 import { Flag } from 'react-native-svg-flagkit';
@@ -24,6 +25,7 @@ export default class Dashboard extends React.Component {
       },
       image:null,
       refreshing:false,
+      loading:false,
     }
   }
 
@@ -32,7 +34,7 @@ export default class Dashboard extends React.Component {
   }
 
   async getResponse(){
-
+    this.setState({loading:true});
     const [regionResp, globalResp] = await Promise.all([
      axios.get('https://covid19.mathdro.id/api/countries/' + this.state.region.iso),
      axios.get('https://covid19.mathdro.id/api')
@@ -47,7 +49,9 @@ export default class Dashboard extends React.Component {
       deaths: regionResponse.deaths, 
       g_confirmed: globalResponse.confirmed, 
       g_recovered: globalResponse.recovered, 
-      g_deaths: globalResponse.deaths })
+      g_deaths: globalResponse.deaths }, () => {
+        this.setState({loading:false});
+      })
   }
 
   changeLocation = () => {
@@ -87,6 +91,7 @@ export default class Dashboard extends React.Component {
             />
           }
         >
+          <Loader loading={this.state.loading} />
         	<Block flex={false} spacing={false} style={{height:280}}>
         		<ImageBackground source={R.images.dashboard} style={styles.imageBackground} />
             <Block style={{marginLeft:width/2.3, position:'absolute', marginTop:50}}>

@@ -13,6 +13,7 @@ const images = {
   touch_face: require('./images/preventions/4.png'),
   wash_hand: require('./images/preventions/5.png'),
   avoid_people: require('./images/preventions/6.png'),
+  loading: require('./images/loading.gif'),
 }
 
 export default images

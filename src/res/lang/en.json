@@ -1,4 +1,9 @@
 {
+	"menu":{
+		"dashboard": "Dashboard",
+		"get-know": "Get to know",
+		"language": "Language",
+	},
 	"dashboard": {
 		"title": "All you need",
 		"title_2": "is stay at home",
@@ -14,6 +19,7 @@
 		"no_record": "No Record Found",
 		"ex_search_placeholder": "Ex: Indonesia",
 		"select_country": "Select Country",
+		"loading": "Preparing data ...",
 	},
 	"about": {
 		"title": "Get to know",

@@ -5,6 +5,7 @@ import { get } from '@network/API';
 import R from '@res/R';
 import Block from '@components/Block';
 import Text from '@components/Text';
+import Loader from '@components/Loader';
 import { connect } from 'react-redux';
 import { Flag } from 'react-native-svg-flagkit'
 import i18n from "@res/lang/i18n";
@@ -16,17 +17,21 @@ export default class Region extends React.Component {
     this.state = {
       regions:null,
       dataSource:null,
+      loading:false,
     }  
   }
 
   componentDidMount(){
+    this.setState({loading:true});
     get('https://covid-api.com/api/regions')
     .then(response => {
       const { data } = response      
-      this.setState({ regions: data.data })
-      // console.log(data);
+      this.setState({ regions: data.data }, () => {
+        this.setState({loading:false});
+      })
     })
     .catch(errorMessage => {
+      this.setState({loading:false});
       return Alert.alert('Error', errorMessage);
     })
   }
@@ -42,8 +47,9 @@ export default class Region extends React.Component {
   });
 
   renderListEmptyComponent = () => {
+    let {loading} = this.state;
     return (
-      <Block center middle white style={{borderWidth:1, borderRadius:10, borderColor:R.colors.lightGray}} paddingVertical={20}><Text title semibold>{i18n.t("dashboard.no_record")}</Text></Block>      
+      <Block center middle white style={{borderWidth:1, borderRadius:10, borderColor:R.colors.lightGray}} paddingVertical={20}><Text title semibold>{loading ? i18n.t("dashboard.loading") : i18n.t("dashboard.no_record")}</Text></Block>      
     )
   }
 
@@ -95,7 +101,8 @@ export default class Region extends React.Component {
     let { regions, dataSource } = this.state;
 
     return (
-      <ScrollView contentContainerStyle={{flex:1, backgroundColor:R.colors.white}}>        
+      <ScrollView contentContainerStyle={{flex:1, backgroundColor:R.colors.white}}>
+        <Loader loading={this.state.loading} />
         { this.renderHeader() }
         <FlatList 
           data = { dataSource ? dataSource : regions }
